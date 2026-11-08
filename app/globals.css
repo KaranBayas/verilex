@@ -54,66 +54,36 @@ button, a { transition: all .24s ease; }
 body { background-color: transparent; background-image: none; }
 .dark body { background-image: none; }
 
-:root {
-  --verilex-paper-base: #f8f8f5;
-  --verilex-paper-grid: rgba(11, 27, 52, .07);
-  --verilex-paper-subgrid: rgba(11, 27, 52, .025);
-  --verilex-paper-grid-size: 56px;
-  --verilex-paper-grain-opacity: .045;
+html, body { background-color: #F4F4F1 !important; }
+#app-bg {
+  position: relative;
+  min-height: 100vh;
+  background-color: #F4F4F1;
+  background-image:
+    linear-gradient(to right, rgba(40, 40, 40, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(40, 40, 40, 0.16) 1px, transparent 1px),
+    radial-gradient(ellipse at 90% 0%, rgba(20, 184, 166, 0.12), transparent 55%);
+  background-size: 64px 64px, 64px 64px, 100% 100%;
+  background-attachment: scroll;
 }
-.dark {
-  --verilex-paper-base: #0a1628;
-  --verilex-paper-grid: rgba(255, 255, 255, .05);
-  --verilex-paper-subgrid: rgba(255, 255, 255, .018);
-  --verilex-paper-grain-opacity: .03;
+html.dark body, html.dark #app-bg { background-color: #0A1628 !important; }
+html.dark #app-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    radial-gradient(ellipse at 90% 0%, rgba(20, 184, 166, 0.16), transparent 55%);
 }
-
-html { background: var(--verilex-paper-base); }
-.verilex-paper-background {
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  pointer-events: none;
-  overflow: hidden;
-  background: var(--verilex-paper-base);
-}
-.verilex-paper-grid,
-.verilex-paper-grain,
-.verilex-paper-glow {
+#app-bg::after {
+  content: "";
   position: absolute;
   inset: 0;
-}
-.verilex-paper-grid {
-  background-image:
-    linear-gradient(to right, var(--verilex-paper-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--verilex-paper-grid) 1px, transparent 1px),
-    linear-gradient(to right, var(--verilex-paper-subgrid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--verilex-paper-subgrid) 1px, transparent 1px);
-  background-size: var(--verilex-paper-grid-size) var(--verilex-paper-grid-size), var(--verilex-paper-grid-size) var(--verilex-paper-grid-size), 14px 14px, 14px 14px;
-  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
-  animation: verilex-paper-drift 40s ease-in-out infinite alternate;
-}
-.verilex-paper-grain {
-  opacity: var(--verilex-paper-grain-opacity);
+  pointer-events: none;
+  opacity: 0.04;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
-.dark .verilex-paper-grain { mix-blend-mode: soft-light; }
-.verilex-paper-glow {
-  background: radial-gradient(circle at 88% 5%, rgba(20,184,166,.10), transparent 30rem), radial-gradient(circle at 4% 84%, rgba(11,27,52,.04), transparent 30rem);
-}
-.dark .verilex-paper-glow {
-  background: radial-gradient(circle at 88% 5%, rgba(20,184,166,.14), transparent 30rem), radial-gradient(circle at 4% 84%, rgba(77,145,221,.08), transparent 30rem);
-}
-@keyframes verilex-paper-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(8px, 8px, 0); } }
-@media (max-width: 640px) {
-  :root { --verilex-paper-grid-size: 40px; }
-  .verilex-paper-grid { animation: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .verilex-paper-grid { animation: none; }
-}
+#app-bg > * { position: relative; z-index: 1; }
+@media (max-width: 640px) { #app-bg { background-size: 40px 40px, 40px 40px, 100% 100%; } }
 main section { animation: verilex-reveal .7s ease both; }
 @keyframes verilex-reveal { from { opacity: .72; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 main article { border-color: var(--verilex-hairline); box-shadow: var(--verilex-shadow-1); }
