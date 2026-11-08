@@ -85,69 +85,6 @@ html.dark #app-bg {
 #app-bg > * { position: relative; z-index: 1; }
 @media (max-width: 640px) { #app-bg { background-size: 40px 40px, 40px 40px, 100% 100%; } }
 
-/* Landing-only dotted field: the other routes continue using #app-bg's graph paper. */
-body:has(.landing-dots) #app-bg,
-body:has(.landing-dots),
-html:has(.landing-dots) { background-color: #FFFFFF !important; }
-body:has(.landing-dots) #app-bg { background-image: none; }
-
-.landing-dots {
-  position: relative;
-  isolation: isolate;
-  min-height: 100vh;
-  background: #FFFFFF;
-}
-.landing-dots::before,
-.landing-dots::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-.landing-dots::before {
-  background-image:
-    radial-gradient(circle, rgba(79, 70, 229, .30) 1.2px, transparent 1.6px),
-    radial-gradient(circle, rgba(20, 184, 166, .28) 1.2px, transparent 1.6px);
-  background-size: 32px 32px, 32px 32px;
-  background-position: 0 0, 16px 16px;
-  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 25%, transparent 100%);
-  mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 25%, transparent 100%);
-  animation: landing-dots-drift 60s ease-in-out infinite alternate;
-}
-.landing-dots::after {
-  background:
-    radial-gradient(520px circle at 0% 100%, rgba(124, 92, 230, .16), transparent 70%),
-    radial-gradient(600px circle at 100% 0%, rgba(20, 184, 166, .14), transparent 70%);
-  animation: landing-dots-twinkle 9s ease-in-out infinite alternate;
-}
-.landing-dots > * { position: relative; z-index: 1; }
-.landing-dots main section { background-color: transparent; }
-
-html.dark body:has(.landing-dots),
-html.dark:has(.landing-dots),
-html.dark body:has(.landing-dots) #app-bg { background-color: #05060A !important; }
-html.dark body:has(.landing-dots) #app-bg { background-image: none; }
-html.dark .landing-dots { background: #05060A; }
-html.dark .landing-dots::before {
-  background-image:
-    radial-gradient(circle, rgba(129, 140, 248, .45) 1.1px, transparent 1.5px),
-    radial-gradient(circle, rgba(52, 211, 153, .35) 1.1px, transparent 1.5px);
-}
-html.dark .landing-dots::after {
-  background:
-    radial-gradient(560px circle at 0% 100%, rgba(124, 92, 230, .35), transparent 70%),
-    radial-gradient(600px circle at 100% 0%, rgba(20, 184, 166, .16), transparent 70%);
-}
-@keyframes landing-dots-drift { from { background-position: 0 0, 16px 16px; } to { background-position: 16px 16px, 32px 32px; } }
-@keyframes landing-dots-twinkle { from { opacity: .82; } to { opacity: 1; } }
-@media (max-width: 640px) {
-  .landing-dots::before { background-size: 24px 24px, 24px 24px; background-position: 0 0, 12px 12px; }
-  .landing-dots::after { background: radial-gradient(360px circle at 0% 100%, rgba(124, 92, 230, .12), transparent 72%), radial-gradient(420px circle at 100% 0%, rgba(20, 184, 166, .11), transparent 72%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .landing-dots::before, .landing-dots::after { animation: none; }
-}
 main section { animation: verilex-reveal .7s ease both; }
 @keyframes verilex-reveal { from { opacity: .72; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 main article { border-color: var(--verilex-hairline); box-shadow: var(--verilex-shadow-1); }
