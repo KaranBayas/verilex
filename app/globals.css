@@ -52,6 +52,8 @@ button, a { transition: all .24s ease; }
 .verilex-card:hover { box-shadow: var(--verilex-shadow-2), var(--verilex-glow); }
 .verilex-chip { background: color-mix(in srgb, white 66%, transparent); border-color: rgba(255,255,255,.6); box-shadow: 0 10px 24px rgba(11,27,52,.12); backdrop-filter: blur(16px); animation: verilex-float 5.5s ease-in-out infinite; }
 .dark .verilex-chip { background: color-mix(in srgb, #17314e 78%, transparent); border-color: rgba(120,226,213,.2); }
+.hero-demo-card > .hero-chip-whisper { left: -24px; right: auto; bottom: 18%; display: none; align-items: center; }
+@media (min-width: 1024px) { .hero-demo-card > .hero-chip-whisper { display: inline-flex; } }
 .verilex-divider { background: linear-gradient(90deg, transparent, rgba(15,159,154,.34), transparent); }
 
 body { background-color: transparent; background-image: none; }
