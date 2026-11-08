@@ -95,3 +95,197 @@ footer { border-image: linear-gradient(90deg, transparent, rgba(15,159,154,.35),
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+:root {
+  --hover-card-border: rgba(11, 27, 52, .08);
+  --hover-card-shadow: 0 1px 2px rgba(11, 27, 52, .04), 0 8px 24px rgba(11, 27, 52, .05);
+  --hover-card-gradient: linear-gradient(135deg, #FFFFFF 0%, #F1ECFB 35%, #DCD2F4 65%, #D4EFFB 100%);
+  --hover-card-glow: 0 4px 6px rgba(124, 92, 230, .06), 0 24px 48px -12px rgba(124, 92, 230, .28), 0 12px 32px -8px rgba(125, 211, 252, .35);
+  --hover-card-ease: 300ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.dark {
+  --hover-card-border: rgba(255, 255, 255, .08);
+  --hover-card-shadow: 0 1px 2px rgba(0, 0, 0, .2), 0 8px 24px rgba(0, 0, 0, .16);
+  --hover-card-gradient: linear-gradient(135deg, #12264A 0%, #1E2A5E 40%, #2B2A6B 70%, #0F3B57 100%);
+  --hover-card-glow: 0 4px 6px rgba(124, 92, 230, .1), 0 24px 48px -12px rgba(124, 92, 230, .34), 0 12px 32px -8px rgba(34, 211, 238, .24);
+}
+
+.hover-card,
+main article,
+main a.rounded-2xl,
+main a.rounded-3xl,
+main button.rounded-2xl {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: var(--hover-card-border);
+  background: #FFFFFF;
+  box-shadow: var(--hover-card-shadow);
+  transition: transform var(--hover-card-ease), box-shadow var(--hover-card-ease), border-color var(--hover-card-ease), background-color var(--hover-card-ease);
+}
+.dark .hover-card,
+.dark main article,
+.dark main a.rounded-2xl,
+.dark main a.rounded-3xl,
+.dark main button.rounded-2xl { background: #0F1F38; }
+
+.hover-card::before,
+main article::before,
+main a.rounded-2xl::before,
+main a.rounded-3xl::before,
+main button.rounded-2xl::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--hover-card-gradient);
+  opacity: 0;
+  transition: opacity var(--hover-card-ease);
+}
+.hover-card::after,
+main article::after,
+main a.rounded-2xl::after,
+main a.rounded-3xl::after,
+main button.rounded-2xl::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle 220px at var(--mx) var(--my), rgba(255, 255, 255, .65), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--hover-card-ease);
+}
+.dark .hover-card::after,
+.dark main article::after,
+.dark main a.rounded-2xl::after,
+.dark main a.rounded-3xl::after,
+.dark main button.rounded-2xl::after { background: radial-gradient(circle 220px at var(--mx) var(--my), rgba(196, 181, 253, .25), transparent 70%); }
+
+.hover-card > *,
+main article > *,
+main a.rounded-2xl > *,
+main a.rounded-3xl > *,
+main button.rounded-2xl > * { position: relative; z-index: 1; }
+
+.hover-card:hover,
+main article:hover,
+main a.rounded-2xl:hover,
+main a.rounded-3xl:hover,
+main button.rounded-2xl:hover,
+.hover-card:focus-within,
+main article:focus-within,
+main a.rounded-2xl:focus-visible,
+main a.rounded-3xl:focus-visible,
+main button.rounded-2xl:focus-visible {
+  transform: translateY(-6px);
+  border-color: rgba(167, 139, 250, .35);
+  box-shadow: var(--hover-card-glow);
+}
+.hover-card:hover::before,
+main article:hover::before,
+main a.rounded-2xl:hover::before,
+main a.rounded-3xl:hover::before,
+main button.rounded-2xl:hover::before,
+.hover-card:focus-within::before,
+main article:focus-within::before,
+main a.rounded-2xl:focus-visible::before,
+main a.rounded-3xl:focus-visible::before,
+main button.rounded-2xl:focus-visible::before { opacity: 1; }
+.hover-card:hover::after,
+main article:hover::after,
+main a.rounded-2xl:hover::after,
+main a.rounded-3xl:hover::after,
+main button.rounded-2xl:hover::after,
+.hover-card:focus-within::after,
+main article:focus-within::after,
+main a.rounded-2xl:focus-visible::after,
+main a.rounded-3xl:focus-visible::after,
+main button.rounded-2xl:focus-visible::after { opacity: 1; }
+
+.hover-card:focus-within,
+main article:focus-within,
+main a.rounded-2xl:focus-visible,
+main a.rounded-3xl:focus-visible,
+main button.rounded-2xl:focus-visible { outline: 2px solid #0f9f9a; outline-offset: 2px; }
+.hover-card .grid.size-12,
+main article .grid.size-12,
+main article .grid.size-9,
+.hover-card .grid.size-9 { transition: transform var(--hover-card-ease), box-shadow var(--hover-card-ease); }
+.hover-card:hover .grid.size-12,
+main article:hover .grid.size-12,
+main article:hover .grid.size-9,
+.hover-card:hover .grid.size-9 { transform: scale(1.06) rotate(3deg); box-shadow: 0 8px 20px rgba(244, 164, 120, .35); }
+.hover-card:hover .text-teal-700,
+main article:hover .text-teal-700 { color: #334155; }
+.hover-card a svg,
+main article a svg { transition: transform var(--hover-card-ease); }
+.hover-card a:hover svg,
+main article a:hover svg { transform: translateX(4px); }
+
+@media (hover: none) {
+  .hover-card:active,
+  main article:active,
+  main a.rounded-2xl:active,
+  main a.rounded-3xl:active,
+  main button.rounded-2xl:active { transform: translateY(-2px); }
+  .hover-card:active::before,
+  main article:active::before,
+  main a.rounded-2xl:active::before,
+  main a.rounded-3xl:active::before,
+  main button.rounded-2xl:active::before { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-card:hover,
+  main article:hover,
+  main a.rounded-2xl:hover,
+  main a.rounded-3xl:hover,
+  main button.rounded-2xl:hover { transform: none; }
+  .hover-card::after,
+  main article::after,
+  main a.rounded-2xl::after,
+  main a.rounded-3xl::after,
+  main button.rounded-2xl::after { display: none; }
+}
+
+/* Shared treatment for card surfaces that are not semantic articles. */
+main .rounded-3xl.border,
+main .rounded-2xl.border {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: var(--hover-card-border);
+  box-shadow: var(--hover-card-shadow);
+  transition: transform var(--hover-card-ease), box-shadow var(--hover-card-ease), border-color var(--hover-card-ease), background-color var(--hover-card-ease);
+}
+main .rounded-3xl.border::before,
+main .rounded-2xl.border::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; background: var(--hover-card-gradient); opacity: 0; transition: opacity var(--hover-card-ease); }
+main .rounded-3xl.border::after,
+main .rounded-2xl.border::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; background: radial-gradient(circle 220px at var(--mx) var(--my), rgba(255,255,255,.65), transparent 70%); opacity: 0; transition: opacity var(--hover-card-ease); }
+main .rounded-3xl.border > *,
+main .rounded-2xl.border > * { position: relative; z-index: 1; }
+main .rounded-3xl.border:hover,
+main .rounded-2xl.border:hover,
+main .rounded-3xl.border:focus-within,
+main .rounded-2xl.border:focus-within { transform: translateY(-6px); border-color: rgba(167,139,250,.35); box-shadow: var(--hover-card-glow); }
+main .rounded-3xl.border:hover::before,
+main .rounded-2xl.border:hover::before,
+main .rounded-3xl.border:focus-within::before,
+main .rounded-2xl.border:focus-within::before,
+main .rounded-3xl.border:hover::after,
+main .rounded-2xl.border:hover::after,
+main .rounded-3xl.border:focus-within::after,
+main .rounded-2xl.border:focus-within::after { opacity: 1; }
+.dark main .rounded-3xl.border,
+.dark main .rounded-2xl.border { background: #0F1F38; }
+@media (hover: none) { main .rounded-3xl.border:active, main .rounded-2xl.border:active { transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { main .rounded-3xl.border:hover, main .rounded-2xl.border:hover { transform: none; } main .rounded-3xl.border::after, main .rounded-2xl.border::after { display: none; } }
