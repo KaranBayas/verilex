@@ -31,7 +31,7 @@ export const aiModels: AIModel[] = [
     role: 'Reasoning', name: 'Evon v3.3', provider: '',
     description: 'A 30B-parameter mixture-of-experts model with 128K context and 11 Indian languages natively. Apache 2.0 weights are available by request on Hugging Face.',
     verilexRole: 'Extracts spoken promises, reads the document clauses, decides whether a claim contradicts the paper, and writes the warning.',
-    highlights: ['30B-parameter mixture of experts', '128K context window', '11 Indian languages natively', 'Apache 2.0 weights by request'],
+    highlights: ['30B parameter mixture of experts', '128K context window', '11 Indian languages natively', 'Apache 2.0 weights by request'],
     badge: 'Open weight',
   },
 ]

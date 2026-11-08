@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight, Check, ChevronRight, Mic2, Play, Sparkles, Speaker, Volume2 } from 'lucide-react'
+import { AlertTriangle, ArrowUpRight, Check, CheckCircle2, Mic2, Play, Sparkles, Speaker, Volume2 } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { AIModel } from '@/lib/models'
 export { LanguageMarquee, StatsBand, TechCta, TechNotes, WarningTimeline, WhyBento } from './below-fold'
@@ -69,6 +69,21 @@ export function ModelShowcase({ model, accent, side, visual }: { model: AIModel;
 
 export function PrismaVisual() { return <div className="tech-prisma-visual"><div className="tech-waveform" aria-hidden="true">{Array.from({ length: 32 }, (_, index) => <i key={index} style={{ height: `${18 + Math.abs(Math.sin(index * 1.6)) * 48}px`, animationDelay: `${index * 35}ms` }}/>)}</div><div className="tech-latency-sweep" aria-hidden="true"/><p className="tech-transcript">Koi charge nahi lagega, sir.</p><div className="tech-chip-row"><span>Hinglish detected</span><span>Streaming</span></div></div> }
 
-export function EvonVisual() { return <div className="tech-evon-visual"><div className="tech-node-grid" aria-hidden="true">{Array.from({ length: 16 }, (_, index) => <i key={index} style={{ animationDelay: `${index * 130}ms` }}/>)}</div><div className="tech-claim-card"><small>Spoken claim</small><strong>No processing fee</strong></div><div className="tech-reasoning-link" aria-hidden="true"><i/></div><div className="tech-clause-card"><small>Document clause · page 2</small><strong>Processing fee 2%</strong></div><span className="tech-verdict">Contradiction · High</span></div> }
+function TraceHeader() { return <><div className="evon-trace-header"><span className="evon-window-dots" aria-hidden="true"><i/><i/><i/></span><strong>Evon v3.3 · Verification</strong><span className="evon-illustrative">Illustrative</span></div><div className="evon-trace-divider"/></> }
+
+function TraceStep({ number, title, children, complete, active }: { number: number; title: string; children: React.ReactNode; complete: boolean; active: boolean }) { return <div className={`evon-trace-step ${complete ? 'is-complete' : ''} ${active ? 'is-active' : ''}`}><div className="evon-trace-marker">{complete ? <CheckCircle2 className="size-3.5"/> : number}</div><div className="evon-trace-step-content"><div className="evon-trace-step-heading"><span>{title}</span>{active && !complete && <i className="evon-thinking" aria-label="Thinking"/>}</div>{children}</div></div> }
+
+function CompareBar() { return <div className="evon-compare"><div><small>Said</small><strong>0%</strong></div><span className="evon-not-equal">≠</span><div><small>Written</small><strong>2%</strong></div><div className="evon-gap-bar" aria-hidden="true"><i/></div></div> }
+
+function VerdictBadge() { return <div className="evon-verdict-wrap"><span className="evon-verdict-badge"><AlertTriangle className="size-3.5"/>Contradiction · High</span><span className="evon-whisper-label">Whisper drafted</span><blockquote>“He said no processing fee. The document says 2 percent.”</blockquote></div> }
+
+export function EvonVisual() {
+  const [phase, setPhase] = useState(5)
+  const [isVisible, setIsVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => { const node = ref.current; if (!node) return; const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: .2 }); observer.observe(node); return () => observer.disconnect() }, [])
+  useEffect(() => { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setPhase(5); return }; if (!isVisible) return; setPhase(0); const timer = window.setInterval(() => setPhase((current) => current >= 5 ? 0 : current + 1), 1800); return () => window.clearInterval(timer) }, [isVisible])
+  return <div ref={ref} className="tech-evon-visual"><div className="evon-network" aria-hidden="true"><i/><i/><i/><i/><span/><span/><span/></div><div className="evon-trace-card" data-phase={phase}><TraceHeader/><div className="evon-trace-body"><TraceStep number={1} title="Extract claim" complete={phase >= 1} active={phase === 0}><div className="evon-claim-row"><span>“No processing fee”</span><small>Processing fee</small><time>00:14</time></div></TraceStep><TraceStep number={2} title="Find clause" complete={phase >= 2} active={phase === 1}><div className="evon-clause-snippet"><span>Processing fee: <mark>2%</mark> of the loan amount</span><small>Page 2</small></div></TraceStep><TraceStep number={3} title="Compare" complete={phase >= 3} active={phase === 2}><CompareBar/></TraceStep><TraceStep number={4} title="Verdict" complete={phase >= 4} active={phase === 3}><VerdictBadge/></TraceStep></div><p className="evon-trace-footer">Illustrative example. Not real model output.</p></div></div>
+}
 
 export function TimbreVisual() { const [playing, setPlaying] = useState(false); return <div className={`tech-timbre-visual ${playing ? 'is-playing' : ''}`}><div className="tech-audio-bar"><button type="button" onClick={() => setPlaying((value) => !value)} aria-label={playing ? 'Pause sample warning' : 'Play sample warning'}><Play className="size-4 fill-current"/></button><div className="tech-audio-wave" aria-hidden="true">{Array.from({ length: 22 }, (_, index) => <i key={index} style={{ height: `${10 + Math.abs(Math.sin(index * 2.1)) * 24}px`, animationDelay: `${index * 40}ms` }}/>)}</div><Volume2 className="size-4 text-amber-600"/></div><p className="tech-whisper-text">He said <mark>no processing fee.</mark> The document says <mark>2 percent.</mark></p><div className="tech-chip-row"><span>₹12,50,000</span><span>Indic numeral handling</span></div></div> }
