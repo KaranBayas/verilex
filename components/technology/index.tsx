@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowUpRight, Check, ChevronRight, Mic2, Play, Sparkles, Speaker, Volume2 } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { AIModel } from '@/lib/models'
+export { LanguageMarquee, StatsBand, TechCta, TechNotes, WarningTimeline, WhyBento } from './below-fold'
 
 export const technologyAccents = {
   prisma: { label: 'Speech to Text', gradient: 'from-teal-500 to-emerald-400', text: 'text-teal-700 dark:text-teal-300', border: 'border-teal-200/70 dark:border-teal-800/70', glow: 'rgba(20,184,166,.18)', soft: 'bg-teal-50/70 dark:bg-teal-950/30' },
