@@ -41,6 +41,57 @@ The prototype is decision support, not legal advice. Review the source document 
 | Speech | Gnani Prisma v2.5 STT and Timbre v2.5 TTS |
 | Optional reasoning | Evon through an OpenAI-compatible chat completions API |
 
+## Project architecture
+
+The live experience is split between the browser and the FastAPI service. The browser captures and plays audio; the backend holds provider credentials, relays speech to Gnani, evaluates the transcript against the session's document facts, and returns findings and voice warnings.
+
+```mermaid
+flowchart LR
+  subgraph Browser[Browser]
+    UI[Next.js session UI]
+    Mic[Microphone]
+    Worklet["PCM AudioWorklet<br/>16 kHz mono frames"]
+    Client["lib/liveSocket.ts<br/>WebSocket and warning queue"]
+    Player["Whisper playback<br/>HTMLAudioElement or speech fallback"]
+    Facts[Session document facts]
+    Mic --> Worklet --> Client
+    Client --> UI
+    UI --> Facts --> Client
+    Client --> Player
+    Player -. echo suppression .-> Worklet
+  end
+
+  subgraph Backend[FastAPI backend]
+    Routes["main.py<br/>REST and WebSocket routes"]
+    Relay[Gnani STT relay]
+    Pipeline["pipeline.py<br/>extract and verify"]
+    Cache[TTS WAV cache]
+    Routes --> Relay
+    Routes --> Pipeline
+    Routes --> Cache
+  end
+
+  GnaniSTT[Gnani Prisma STT]
+  GnaniTTS[Gnani Timbre TTS]
+  Evon[Optional Evon API]
+
+  Client <-->|PCM frames, controls, transcripts, findings, warnings| Routes
+  Relay <-->|PCM audio and transcript events| GnaniSTT
+  Pipeline -. optional reasoning .-> Evon
+  Pipeline --> Routes
+  Cache --> GnaniTTS
+```
+
+### Live session flow
+
+1. The browser converts microphone input into signed 16-bit PCM at 16 kHz and sends frames over `/ws/session`.
+2. FastAPI relays the frames to Gnani Prisma STT and returns recognized transcripts to the browser. Agent transcripts also enter the verification pipeline; transcripts marked as the user's speech are not analyzed.
+3. The pipeline extracts commitments with Evon when enabled, or uses its rule-based fallback. Numeric claims are compared with the supplied document facts in Python.
+4. A finding is sent to the browser immediately. For high or medium severity contradictions, the backend gets a WAV warning from Timbre (using an in-memory cache), then sends the warning event.
+5. The browser displays the finding and warning, plays the audio in order, and briefly drops microphone frames to reduce feedback from the spoken warning.
+
+The API key is loaded by the backend from `backend/.env`. It is never part of the browser-to-backend session message. Demo mode bypasses this live flow and uses scripted frontend content.
+
 ## Run the frontend
 
 Requirements: Node.js and pnpm. The repository declares pnpm as its package manager.
