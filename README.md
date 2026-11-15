@@ -1,8 +1,11 @@
-# VeriLex
+# VeriLex: Verifiable Legal & Agreement Intelligence
+*The witness in your ear.*
 
-**A voice AI guardian for conversations about contracts and offers.** VeriLex compares spoken promises with written terms and surfaces discrepancies while the conversation is happening.
+[📄 One-page solution pitch (PDF)](VeriLex_Solution_Pitch.pdf) · [🎥 Demo video](https://youtu.be/6tNNkigYx5E) · [💼 LinkedIn post](https://lnkd.in/p/gAy8dEJ3) · [🌐 Prototype (demo mode)](https://verilex-jade.vercel.app)
 
-VeriLex is an early-stage prototype. The frontend includes a scripted demo; live listening uses a FastAPI relay for Gnani speech recognition and speech synthesis. The current live session sends document facts as JSON. PDF clause extraction and persistent session storage are not wired into the live backend yet.
+> **For judges:** VeriLex listens to a sales conversation, checks the agent's spoken promises against the written agreement, and plays a quiet warning in the user's earbud when they don't match.
+> **Live today:** Gnani Prisma v2.5 (speech to text) and Timbre v2.5 (text to speech). **In progress:** Evon v3.3 (reasoning); verification is rule-based for now.
+> Built for the Great Indian AI Internship Challenge by Gnani AI.
 
 ## Product screenshots
 
