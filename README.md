@@ -35,6 +35,38 @@
 
 The prototype is decision support, not legal advice. Review the source document and seek qualified advice for important decisions.
 
+## Try it in 60 seconds
+
+1. Open the [prototype](https://verilex-jade.vercel.app). It runs in **Demo mode**, so no microphone or API key is needed.
+2. Click **Start a session**, review the extracted clauses, tick the consent box, and start listening.
+3. Watch the scripted conversation: the transcript appears, a red contradiction card flags the promise that doesn't match the document, and the warning banner shows.
+
+Live audio (Prisma and Timbre) runs locally with the FastAPI backend and a Gnani API key. See "Run the backend" below. The [demo video](https://youtu.be/6tNNkigYx5E) shows the live pipeline.
+
+## Status and known limitations
+
+| Area | Status |
+| --- | --- |
+| Live speech to text (Prisma v2.5) and spoken warnings (Timbre v2.5) | Working locally |
+| Promise checks | Rule-based, with numbers compared in code |
+| Evon v3.3 reasoning | Integration in progress |
+| Web app (landing, setup, live session, report, technology pages) | Working; hosted prototype runs in Demo mode |
+
+Known limitations:
+- Rule-based checks cover only the phrasings the rules know; Evon is meant to widen this.
+- Speaker handling is manual today. Everything is treated as the agent unless marked as the user.
+- Noise handling relies on the browser's built-in suppression. Headphones are recommended so the microphone does not pick up the warning.
+- Phone-call audio is not accessible to ordinary apps, so calls are not supported yet.
+
+## Roadmap
+
+- **Evon integration:** structured JSON extraction and verification of promises against clauses; numbers stay checked in code.
+- **Speaker separation:** voice enrollment (speaker embeddings from a short sample) and diarization to label agent and customer.
+- **Noise robustness:** voice-activity detection on a denoised copy, with the original audio still sent to Prisma, A/B tested on word error rate.
+- **Phone calls:** a cloud telephony bridge that streams call audio to the backend, with consent announced on the call.
+- **Documents:** PDF and photo parsing with OCR, and downloadable evidence reports.
+
+
 ## Technology
 
 | Area | Stack |
@@ -163,3 +195,14 @@ backend/             FastAPI application and Gnani integration
 public/              Static assets and audio worklet
 screen shot/         Product screenshots used above
 ```
+
+## Privacy and responsible use
+
+- Consent is requested before listening starts.
+- Audio is relayed through the backend to Gnani Prisma for transcription. [Add this only after the grep check above: The backend does not save microphone audio.]
+- The demo uses synthetic sample data only.
+- VeriLex is decision support, not legal advice.
+
+## Author and acknowledgements
+
+Built by Karan Bayas for the Great Indian AI Internship Challenge by Gnani AI, using Gnani's Prisma and Timbre APIs. Evon v3.3 is the planned reasoning layer.
